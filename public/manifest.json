@@ -1,0 +1,21 @@
+{
+  "name": "Pst Ifeanyi Sermon",
+  "short_name": "Sermons",
+  "description": "Listen to powerful sermons from Pst Ifeanyi anytime, anywhere",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#f59e0b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://pst.sammiehosty.com/logo.png",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["music", "entertainment", "lifestyle"],
+  "lang": "en",
+  "dir": "ltr"
+}
