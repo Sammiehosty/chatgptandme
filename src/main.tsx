@@ -15,6 +15,21 @@ createRoot(document.getElementById("root")!).render(
 
 pushService.init();
 
+(async () => {
+
+    const granted =
+        await pushService.requestPermission();
+
+    if (!granted)
+        return;
+
+    const subscription =
+        await pushService.subscribe();
+
+    console.log(subscription);
+
+})();
+
 let deferredPrompt;
 const installBanner = document.getElementById('install-banner'); // Your HTML banner
 const installBtn = document.getElementById('install-btn');       // Your HTML button
