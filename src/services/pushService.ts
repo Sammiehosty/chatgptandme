@@ -4,14 +4,20 @@ class PushService {
 
     async init() {
 
-        if (!('serviceWorker' in navigator))
-            return false;
+        if (!("serviceWorker" in navigator))
+            return;
 
-        this.registration = await navigator.serviceWorker.register('/sw.js');
+        this.registration = await navigator.serviceWorker.register("/sw.js");
 
-        console.log("Service Worker Registered");
+        console.log("Service Worker Ready");
 
-        return true;
+        await navigator.serviceWorker.ready;
+
+    }
+
+    getRegistration() {
+
+        return this.registration;
 
     }
 
