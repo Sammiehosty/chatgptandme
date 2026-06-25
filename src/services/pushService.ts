@@ -45,7 +45,21 @@ class PushService {
 
             });
 
-        return subscription;
+        await fetch("https://vcc.sammiehosty.com/api/push/subscribe.php", {
+
+    method: "POST",
+
+    headers: {
+
+        "Content-Type": "application/json"
+
+    },
+
+    body: JSON.stringify(subscription)
+
+});
+
+return subscription;
 
     }
 
