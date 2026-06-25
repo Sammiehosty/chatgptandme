@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
+import pushService from "./services/pushService";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -12,6 +13,7 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>
 );
 
+pushService.init();
 
 let deferredPrompt;
 const installBanner = document.getElementById('install-banner'); // Your HTML banner
