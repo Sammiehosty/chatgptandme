@@ -86,7 +86,7 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
             latestData.sermons[0]
           );
 
-          const progress = await getContinueListening();
+          setContinueProgress(42);
 
         }
 
