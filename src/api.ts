@@ -361,3 +361,24 @@ export async function getSettings(): Promise<AppSettings> {
   return cachedSettings as AppSettings;
 }
 
+export async function getDashboard() {
+
+    const response = await fetch(
+
+        `${API_BASE}/dashboard/home.php`,
+
+        {
+            credentials: "include"
+        }
+
+    );
+
+    if (!response.ok) {
+
+        throw new Error("Unable to load dashboard.");
+
+    }
+
+    return response.json();
+
+}
