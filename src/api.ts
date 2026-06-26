@@ -192,17 +192,90 @@ export async function getStats(): Promise<AppStats> {
 }
 
 export async function recordPlay(id: number): Promise<void> {
-  try {
-    await fetch(`${API_BASE}/sermons.php?action=play&id=${id}`);
-  } catch {
-    // silent fail
-  }
+
+    try {
+
+        await fetch(`${API_BASE}/sermons/play.php`, {
+
+            method: "POST",
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                id
+
+            })
+
+        });
+
+    } catch (error) {
+
+        console.error("Unable to record play:", error);
+
+    }
+
 }
 
-export function getStreamUrl(sermon: Sermon): string {
-  if (sermon.stream_url && !useDemo) return sermon.stream_url;
-  return `${API_BASE}/stream.php?id=${sermon.id}`;
+export async function saveProgress(
+
+    sermonId: number,
+
+    position: number,
+
+    duration: number
+
+): Promise<void> {
+
+    try {
+
+        await fetch(`${API_BASE}/sermons/save-progress.php`, {
+
+            method: "POST",
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                sermon_id: sermonId,
+
+                position,
+
+                duration
+
+            })
+
+        });
+
+    } catch (error) {
+
+        console.error("Unable to save progress:", error);
+
+    }
+
 }
+
+
+export function getStreamUrl(sermon: Sermon): string {
+
+    if (sermon.stream_url && !useDemo) {
+
+        return sermon.stream_url;
+
+    }
+
+    return `${API_BASE}/stream.php?id=${sermon.id}`;
+
+}
+
 
 export function isUsingDemo(): boolean {
   return useDemo;
@@ -287,3 +360,4 @@ export async function getSettings(): Promise<AppSettings> {
   cachedSettings = data.settings || {};
   return cachedSettings as AppSettings;
 }
+

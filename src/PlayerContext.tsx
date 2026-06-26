@@ -1,6 +1,11 @@
 import { createContext, useContext, useState, useRef, useCallback, useEffect, type ReactNode } from 'react';
 import type { Sermon } from './types';
-import { recordPlay, getStreamUrl, isUsingDemo } from './api';
+import {
+    recordPlay,
+    saveProgress,
+    getStreamUrl,
+    isUsingDemo
+} from './api';
 
 type RepeatMode = 'none' | 'all' | 'one';
 
@@ -37,6 +42,9 @@ export function usePlayer() {
 
 export function PlayerProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const playRecordedRef = useRef(false);
+  const lastProgressSaveRef = useRef(0);
+  const currentSermonRef = useRef<Sermon | null>(null);
   const [currentSermon, setCurrentSermon] = useState<Sermon | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -56,7 +64,51 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     audio.playbackRate = playbackRate;
     audioRef.current = audio;
 
-    audio.addEventListener('timeupdate', () => setCurrentTime(audio.currentTime));
+   
+
+ audio.addEventListener("timeupdate", () => {
+
+    setCurrentTime(audio.currentTime);
+
+    // Count play after 30 seconds
+    if (
+        currentSermonRef.current &&
+        !playRecordedRef.current &&
+        audio.currentTime >= 30
+    ) {
+
+        playRecordedRef.current = true;
+
+        recordPlay(currentSermonRef.current.id);
+
+    }
+
+   if (
+
+    currentSermonRef.current &&
+
+    audio.currentTime - lastProgressSaveRef.current >= 30
+
+) {
+
+    lastProgressSaveRef.current = audio.currentTime;
+
+    saveProgress(
+
+        currentSermonRef.current.id,
+
+        audio.currentTime,
+
+        audio.duration
+
+    );
+
+}
+
+});
+
+
+
     audio.addEventListener('durationchange', () => setDuration(audio.duration));
     audio.addEventListener('loadedmetadata', () => {
       setDuration(audio.duration);
@@ -123,8 +175,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     const sermon = queue[index];
     setCurrentIndex(index);
     setCurrentSermon(sermon);
+    currentSermonRef.current = sermon;
     setIsLoading(true);
     setCurrentTime(0);
+    playRecordedRef.current = false;
+    lastProgressSaveRef.current = 0;
 
     const audio = audioRef.current;
     if (!audio) return;
@@ -140,7 +195,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     audio.src = getStreamUrl(sermon);
     audio.playbackRate = playbackRate;
     audio.play().catch(() => setIsLoading(false));
-    recordPlay(sermon.id);
 
     // Update media session metadata
     if ('mediaSession' in navigator) {
@@ -158,8 +212,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setQueue(newQueue);
     
     setCurrentSermon(sermon);
+    currentSermonRef.current = sermon;
     setIsLoading(true);
     setCurrentTime(0);
+    playRecordedRef.current = false;
+    lastProgressSaveRef.current = 0;
     setCurrentIndex(index >= 0 ? index : 0);
 
     const audio = audioRef.current;
@@ -176,7 +233,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     audio.src = getStreamUrl(sermon);
     audio.playbackRate = playbackRate;
     audio.play().catch(() => setIsLoading(false));
-    recordPlay(sermon.id);
 
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
