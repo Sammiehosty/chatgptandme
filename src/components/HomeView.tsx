@@ -16,6 +16,9 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
   const [popularSermons, setPopularSermons] = useState<Sermon[]>([]);
   const [loading, setLoading] = useState(true);
   const [telegramLink, setTelegramLink] = useState('');
+  const [continueSermon, setContinueSermon] = useState<Sermon | null>(null);
+
+const [continueProgress, setContinueProgress] = useState(0);
 
   useEffect(() => {
     async function loadData() {
