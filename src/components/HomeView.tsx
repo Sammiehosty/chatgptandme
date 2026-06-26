@@ -4,6 +4,7 @@ import type { Sermon, AppStats } from '../types';
 import { getSermons, getStats, getSettings } from '../api';
 import HeroSection from './HeroSection';
 import SermonCard from './SermonCard';
+import ContinueListeningCard from "./ContinueListeningCard";
 
 interface HomeViewProps {
   onNavigate: (view: string) => void;
