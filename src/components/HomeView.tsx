@@ -52,6 +52,24 @@ const [continueProgress, setContinueProgress] = useState(0);
         </div>
       ) : (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+
+    <ContinueListeningCard
+
+        sermon={continueSermon}
+
+        progress={continueProgress}
+
+        onResume={() => {
+
+            console.log("Resume listening");
+
+        }}
+
+    />
+
+</div>
           {/* Latest Sermons */}
           <section className="mb-12">
             <div className="flex items-center justify-between mb-6">
