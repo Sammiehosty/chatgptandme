@@ -1,97 +1,70 @@
 import { Play, Clock } from "lucide-react";
 import type { Sermon } from "../types";
 
-interface Props {
-    sermon: Sermon | null;
-    progress: number;
-    onResume: () => void;
+interface ContinueListeningCardProps {
+  sermon: Sermon | null;
+  progress: number;
+  onResume: () => void;
 }
 
 export default function ContinueListeningCard({
-    sermon,
-    progress,
-    onResume
-}: Props) {
+  sermon,
+  progress,
+  onResume,
+}: ContinueListeningCardProps) {
+  if (!sermon) return null;
 
-    if (!sermon) return null;
+  return (
+    <section className="mb-12">
+      <div className="relative overflow-hidden rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/10 via-slate-900 to-slate-950">
 
-    return (
+        <div className="absolute right-0 top-0 w-72 h-72 bg-amber-500/10 blur-3xl rounded-full" />
 
-        <section className="mb-10">
+        <div className="relative p-8">
 
-            <div className="rounded-3xl border border-amber-500/20 bg-gradient-to-r from-amber-500/10 via-slate-900 to-slate-900 overflow-hidden">
+          <p className="text-amber-400 font-semibold text-sm uppercase tracking-wider">
+            Continue Listening
+          </p>
 
-                <div className="p-6">
+          <h2 className="text-white text-3xl font-bold mt-2">
+            {sermon.title}
+          </h2>
 
-                    <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 mt-3 text-slate-400">
 
-                        <div>
+            <Clock size={16} />
 
-                            <p className="text-amber-400 text-sm font-semibold mb-2">
-                                Continue Listening
-                            </p>
+            <span>{progress}% completed</span>
 
-                            <h2 className="text-white text-2xl font-bold">
-                                {sermon.title}
-                            </h2>
+          </div>
 
-                            <div className="flex items-center gap-2 mt-3 text-slate-400">
+          <div className="mt-6">
 
-                                <Clock size={16} />
+            <div className="h-2 rounded-full bg-slate-700 overflow-hidden">
 
-                                <span>
-
-                                    {progress}% completed
-
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <button
-
-                            onClick={onResume}
-
-                            className="w-16 h-16 rounded-full bg-amber-500 hover:bg-amber-400 transition flex items-center justify-center shadow-lg"
-
-                        >
-
-                            <Play
-                                className="text-black"
-                                fill="currentColor"
-                            />
-
-                        </button>
-
-                    </div>
-
-                    <div className="mt-6">
-
-                        <div className="h-2 rounded-full bg-slate-700 overflow-hidden">
-
-                            <div
-
-                                className="h-full bg-amber-400 transition-all"
-
-                                style={{
-
-                                    width: `${progress}%`
-
-                                }}
-
-                            />
-
-                        </div>
-
-                    </div>
-
-                </div>
+              <div
+                className="h-full bg-amber-400 transition-all duration-500"
+                style={{
+                  width: `${progress}%`,
+                }}
+              />
 
             </div>
 
-        </section>
+          </div>
 
-    );
+          <button
+            onClick={onResume}
+            className="mt-8 inline-flex items-center gap-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold px-6 py-3 transition-all hover:scale-105"
+          >
+            <Play fill="currentColor" />
 
+            Resume Listening
+          </button>
+
+        </div>
+
+      </div>
+    </section>
+  );
 }
