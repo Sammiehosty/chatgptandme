@@ -96,7 +96,7 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
               >
                 View All <ChevronRight className="w-4 h-4" />
               </button>
-            </div>
+            </div> 
 
             {latestSermons.length > 0 && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
