@@ -359,7 +359,7 @@ export async function getSettings(): Promise<AppSettings> {
   }
   cachedSettings = data.settings || {};
   return cachedSettings as AppSettings;
-}
+} 
 
 export async function getDashboard() {
 
@@ -376,90 +376,6 @@ export async function getDashboard() {
     if (!response.ok) {
 
         throw new Error("Unable to load dashboard.");
-
-    }
-
-    return response.json();
-
-}
-
-
-/* ===========================================================
-   Dashboard API
-=========================================================== */
-
-
-/* ===========================================================
-   Continue Listening
-=========================================================== */
-
-export async function getContinueListening() {
-
-    const response = await fetch(
-
-        `${API_BASE}/listening/get_progress.php`,
-
-        {
-            credentials: "include"
-        }
-
-    );
-
-    if (!response.ok) {
-
-        throw new Error("Unable to load listening progress.");
-
-    }
-
-    return response.json();
-
-}
-
-/* ===========================================================
-   Recently Played
-=========================================================== */
-
-export async function getRecentlyPlayed() {
-
-    const response = await fetch(
-
-        `${API_BASE}/listening/recently_played.php`,
-
-        {
-            credentials: "include"
-        }
-
-    );
-
-    if (!response.ok) {
-
-        throw new Error("Unable to load recently played.");
-
-    }
-
-    return response.json();
-
-}
-
-/* ===========================================================
-   Statistics
-=========================================================== */
-
-export async function getListeningStatistics() {
-
-    const response = await fetch(
-
-        `${API_BASE}/listening/statistics.php`,
-
-        {
-            credentials: "include"
-        }
-
-    );
-
-    if (!response.ok) {
-
-        throw new Error("Unable to load listening statistics.");
 
     }
 
