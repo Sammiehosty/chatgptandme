@@ -10,7 +10,7 @@ import ContinueListeningCard from './ContinueListeningCard';
 interface HomeViewProps {
   onNavigate: (view: string) => void;
 }
-
+ 
 export default function HomeView({ onNavigate }: HomeViewProps) {
 
   const [stats, setStats] = useState<AppStats | null>(null);
