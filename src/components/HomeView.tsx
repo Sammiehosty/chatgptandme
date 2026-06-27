@@ -12,12 +12,19 @@ interface HomeViewProps {
 }
 
 export default function HomeView({ onNavigate }: HomeViewProps) {
+
   const [stats, setStats] = useState<AppStats | null>(null);
+
   const [latestSermons, setLatestSermons] = useState<Sermon[]>([]);
+
   const [popularSermons, setPopularSermons] = useState<Sermon[]>([]);
+
   const [continueSermon, setContinueSermon] = useState<Sermon | null>(null);
+
   const [continueProgress, setContinueProgress] = useState(0);
+
   const [loading, setLoading] = useState(true);
+
   const [telegramLink, setTelegramLink] = useState('');
 
   useEffect(() => {
