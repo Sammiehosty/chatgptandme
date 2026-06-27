@@ -388,27 +388,6 @@ export async function getDashboard() {
    Dashboard API
 =========================================================== */
 
-export async function getDashboard() {
-
-    const response = await fetch(
-
-        `${API_BASE}/dashboard/home.php`,
-
-        {
-            credentials: "include"
-        }
-
-    );
-
-    if (!response.ok) {
-
-        throw new Error("Unable to load dashboard.");
-
-    }
-
-    return response.json();
-
-}
 
 /* ===========================================================
    Continue Listening
