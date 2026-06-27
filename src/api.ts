@@ -382,3 +382,19 @@ export async function getDashboard() {
     return response.json();
 
 }
+
+export async function getContinueListening() {
+
+    const response = await fetch(
+        `${API_BASE}/listening/get_progress.php`,
+        {
+            credentials: "include"
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("Unable to load continue listening.");
+    }
+
+    return await response.json();
+}
