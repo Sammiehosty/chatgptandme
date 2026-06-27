@@ -14,51 +14,61 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
 
   const [stats, setStats] = useState<AppStats | null>(null);
 
-  const [latestSermons, setLatestSermons] = useState<Sermon[]>([]);
+const [latestSermons, setLatestSermons] = useState<Sermon[]>([]);
 
-  const [popularSermons, setPopularSermons] = useState<Sermon[]>([]);
+const [popularSermons, setPopularSermons] = useState<Sermon[]>([]);
 
-  const [continueSermon, setContinueSermon] = useState<Sermon | null>(null);
+const [continueSermon, setContinueSermon] = useState<Sermon | null>(null);
 
-  const [continueProgress, setContinueProgress] = useState(0);
+const [continueProgress, setContinueProgress] = useState(0);
 
-  const [loading, setLoading] = useState(true);
+const [loading, setLoading] = useState(true);
 
-  const [telegramLink, setTelegramLink] = useState('');
+const [telegramLink, setTelegramLink] = useState('');
 
   useEffect(() => {
 
     async function loadData() {
 
-      setLoading(true);
+    setLoading(true);
 
-      try {
+    try {
 
         const [
 
-          statsData,
+            statsData,
 
-          latestData,
+            latestData,
 
-          popularData,
+            popularData,
 
-          settingsData
+            settingsData,
+
+            continueData
 
         ] = await Promise.all([
 
-          getStats(),
+            getStats(),
 
-          getSermons({
-            limit: 6,
-            sort: 'newest'
-          }),
+            getSermons({
 
-          getSermons({
-            limit: 6,
-            sort: 'popular'
-          }),
+                limit: 6,
 
-          getSettings()
+                sort: 'newest'
+
+            }),
+
+            getSermons({
+
+                limit: 6,
+
+                sort: 'popular'
+
+            }),
+
+            getSettings(),
+
+            getContinueListening()
 
         ]);
 
@@ -69,39 +79,38 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
         setPopularSermons(popularData.sermons);
 
         setTelegramLink(
-          settingsData.telegram_channel_link || ''
+            settingsData.telegram_channel_link || ''
         );
 
-        /*
-        Temporary Continue Listening
+        if (
+            continueData.success &&
+            continueData.progress
+        ) {
 
-        Next milestone will use:
+            setContinueSermon(
+                continueData.progress
+            );
 
-        dashboard/home.php
-        */
-
-        if (latestData.sermons.length > 0) {
-
-          setContinueSermon(
-            latestData.sermons[0]
-          );
-
-          setContinueProgress(42);
+            setContinueProgress(
+                Number(
+                    continueData.progress.completion_percent || 0
+                )
+            );
 
         }
 
-      } catch (err) {
+    } catch (err) {
 
         console.error(
-          'Error loading home data:',
-          err
+            'Error loading home data:',
+            err
         );
 
-      }
-
-      setLoading(false);
-
     }
+
+    setLoading(false);
+
+}
 
     loadData();
 
@@ -111,12 +120,30 @@ export default function HomeView({ onNavigate }: HomeViewProps) {
 
     <div>
 
-      <HeroSection
-        stats={stats}
-        onNavigate={onNavigate}
-      />
+     <HeroSection
+    stats={stats}
+    onNavigate={onNavigate}
+/>
 
-      {loading ? (
+{!loading && (
+
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8">
+
+        <ContinueListeningCard
+
+            sermon={continueSermon}
+
+            progress={continueProgress}
+
+            onResume={() => {}}
+
+        />
+
+    </div>
+
+)}
+
+{loading ? (
 
         <div className="flex items-center justify-center py-20">
 
