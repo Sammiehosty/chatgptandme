@@ -17,6 +17,7 @@ setMessage("");
 try {
   const response = await fetch(`https://vcc.sammiehosty.com/api/login.php`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
