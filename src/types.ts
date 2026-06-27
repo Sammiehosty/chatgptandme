@@ -54,3 +54,10 @@ export interface User {
   fullname:string;
   email:string;
 }
+
+export interface ContinueListening extends Sermon {
+  current_position: number;
+  completion_percent: number;
+  completed: number;
+  last_played: string;
+}
